@@ -20,8 +20,12 @@ void servomsg(const geometry_msgs::Vector3& theta){
 rec.y=theta.y;
 rec.z=theta.z;
 }
+void grippermsg(const std_msgs::Int16& gripper){
+  int servo_gripper= gripper.data;
 
-ros::Subscriber<geometry_msgs::Vector3> joint_move("joints", &servomsg);
+
+ros::Subscriber<geometry_msgs::Vector3> joint_move("/servo_joints", &servomsg);
+ros::Subscriber<geometry_msgs::Vector3> gripper("/servo_gripper", &servomsg);
 ros::Publisher getreadings("getreadings",&rec);
 
 
@@ -55,6 +59,7 @@ Serial.begin(57600);
   nh.initNode();
   nh.advertise(getreadings);
   nh.subscribe(joint_move);
+  nh.subscribe(gripper);
 
 }
 
@@ -62,7 +67,7 @@ void loop() {
    shoulder.write(rec.y);
   elbow.write(rec.z);
   base.write(rec.x);
-  gripper.write(min_gripper);
+  gripper.write(servo_gripper);
 
 
   getreadings.publish(&rec);
