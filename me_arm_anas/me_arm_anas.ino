@@ -7,10 +7,12 @@
 
 ros::NodeHandle nh;
 geometry_msgs::Vector3 rec;
+std_msgs::Int16 gri;
 
 int servo_base;
   int servo_shoulder;
   int servo_elbow;
+  int servo_gripper;
   
 void servomsg(const geometry_msgs::Vector3& theta){
   int servo_base= theta.x;
@@ -21,12 +23,15 @@ rec.y=theta.y;
 rec.z=theta.z;
 }
 void grippermsg(const std_msgs::Int16& gripper){
-  int servo_gripper= gripper.data;
-
+ servo_gripper= gripper.data;
+ gri.data=gripper.data;
+ 
+}
 
 ros::Subscriber<geometry_msgs::Vector3> joint_move("/servo_joints", &servomsg);
-ros::Subscriber<geometry_msgs::Vector3> gripper("/servo_gripper", &servomsg);
+ros::Subscriber<std_msgs::Int16> gripper_move("/servo_gripper", &grippermsg);
 ros::Publisher getreadings("getreadings",&rec);
+ros::Publisher gripper_reading("/gripper_read",&gri);
 
 
 Servo base;
@@ -58,8 +63,9 @@ Serial.begin(57600);
 
   nh.initNode();
   nh.advertise(getreadings);
+  nh.advertise(gripper_reading);
   nh.subscribe(joint_move);
-  nh.subscribe(gripper);
+  nh.subscribe(gripper_move);
 
 }
 
@@ -67,10 +73,11 @@ void loop() {
    shoulder.write(rec.y);
   elbow.write(rec.z);
   base.write(rec.x);
-  gripper.write(servo_gripper);
+  gripper.write(gri.data);
 
 
   getreadings.publish(&rec);
+  gripper_reading.publish(&gri);
   // shoulder.write(min_shoulder);
   //elbow.write(min_elbow);
   //base.write(min_base);

@@ -8,13 +8,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # servo mapping
-min_base=120
+max_base=120
 min_shoulder=70
-min_elbow=140
+max_elbow=140
 min_gripper=50
-max_base=10
+min_base=10
 max_shoulder=135
-max_elbow=100
+min_elbow=100
 max_gripper=90
 home_base=60
 home_shoulder=90
@@ -189,14 +189,14 @@ class MeArmGUI:
 
     def home(self):
         self.mearm.plot(home_position_joints, dt=1)
-        servo_readings = Vector3()
-        servo_readings.x = self.home_position[0]
-        servo_readings.y = self.home_position[1]
-        servo_readings.z = self.home_position[2]
+        self.servo_readings = Vector3()
+        self.servo_readings.x = self.home_position[0]
+        self.servo_readings.y = self.home_position[1]
+        self.servo_readings.z = self.home_position[2]
 
         # publish the servo_base, servo_shoulder
         # servo_elbow to the topic with msg type Vector3
-        self.servo_joints_pub.publish(servo_readings)
+        self.servo_joints_pub.publish(self.servo_readings)
 
     def __call__(self) -> None:
         self.servo_node_init()
@@ -205,7 +205,7 @@ class MeArmGUI:
 
     def servo_node_init(self):
         rospy.init_node("servo_node", anonymous=True)
-        servo_readings = Vector3()
+        self.servo_readings = Vector3()
         # servo_readings.x = servo_base
         # servo_readings.y = servo_shoulder
         # servo_readings.z = servo_elbow
@@ -230,28 +230,31 @@ class MeArmGUI:
     def base_slider_update(self, val):
         servo_base = val
         self.servo_base_label.config(text="servo_base = " + str(servo_base))
+        self.servo_joints_pub.publish(self.servo_readings)
         self.mover_slider()
 
     def shoulder_slider_update(self, val):
         servo_shoulder = val
         self.servo_shoulder_label.config(text="servo_shoulder = " + str(servo_shoulder))
+        self.servo_joints_pub.publish(self.servo_readings)
         self.mover_slider()
 
     def elbow_slider_update(self, val):
         servo_elbow = val
         self.servo_elbow_label.config(text="servo_elbow = " + str(servo_elbow))
+        self.servo_joints_pub.publish(self.servo_readings)
         self.mover_slider()
 
     def mover_slider(self):
         servo_base = self.base_slider.get()
         servo_shoulder = self.shoulder_slider.get()
         servo_elbow = self.elbow_slider.get()
-        servo_readings = Vector3()
-        servo_readings.x = servo_base
-        servo_readings.y = servo_shoulder
-        servo_readings.z = servo_elbow
+        self.servo_readings = Vector3()
+        self.servo_readings.x = servo_base
+        self.servo_readings.y = servo_shoulder
+        self.servo_readings.z = servo_elbow
         # publish the servo_base, servo_shoulder, servo_elbow to the topic with msg type Vector3
-        self.servo_joints_pub.publish(servo_readings)
+        self.servo_joints_pub.publish(self.servo_readings)
 
     def clear(self):
         self.x_entry.delete(0, "end")
@@ -321,27 +324,39 @@ class MeArmGUI:
 
         servo_base = self.map_range(base_joint, j1_min, j1_max, min_base, max_base)
         # check the range of the servo_base
-        while servo_base > min_base or servo_base < max_base:
-            print(servo_base)
-            self.error_label.config(text="error: servo_base is out of range")
-            return
-        servo_shoulder = self.map_range(
-            shoulder_joint,
-            j2_min,
-            j2_max,
-            min_shoulder,
-            max_shoulder,
-        )
-        while servo_shoulder < min_shoulder or servo_shoulder > max_shoulder:
-            self.error_label.config(text="error: servo_shoulder is out of range")
-            return
+        # while servo_base > min_base or servo_base < max_base:
+        #     print(servo_base)
+        #     self.error_label.config(text="error: servo_base is out of range")
+        #     return
+        if servo_base > max_base:
+            servo_base = max_base
+        if servo_base < min_base:
+            servo_base = min_base
+        servo_shoulder = self.map_range(shoulder_joint, j2_min, j2_max,min_shoulder,max_shoulder)
+        # while servo_shoulder < min_shoulder or servo_shoulder > max_shoulder:
+        #     self.error_label.config(text="error: servo_shoulder is out of range")
+        #     return
+        if servo_shoulder > max_shoulder:
+            servo_shoulder = max_shoulder
+        if servo_shoulder < min_shoulder:
+            servo_shoulder = min_shoulder
+
         servo_elbow = self.map_range(elbow_joint, j3_min, j3_max, min_elbow, max_elbow)
-        while servo_elbow > min_elbow or servo_elbow < max_elbow:
-            self.error_label.config(text="error: servo_elbow is out of range")
-            return
+        # while servo_elbow > min_elbow or servo_elbow < max_elbow:
+        #     self.error_label.config(text="error: servo_elbow is out of range")
+        #     return
+        if servo_elbow > max_elbow:
+            servo_elbow = max_elbow
+        if servo_elbow < min_elbow:
+            servo_elbow = min_elbow
+
         self.servo_base_label.config(text="servo_base = " + str(servo_base))
         self.servo_shoulder_label.config(text="servo_shoulder = " + str(servo_shoulder))
         self.servo_elbow_label.config(text="servo_elbow = " + str(servo_elbow))
+        self.servo_readings.x=int(servo_base)
+        self.servo_readings.y=int(servo_shoulder)
+        self.servo_readings.z=int(servo_elbow)
+        self.servo_joints_pub.publish(self.servo_readings)
 
     def on_close_window(self):
         plt.close()
