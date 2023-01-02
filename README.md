@@ -18,18 +18,18 @@ To install the necessary software, follow these steps:
 3. Install Arduino IDE.
 4. Install ROSserial package.
 `sudo apt-get install ros-noetic-rosserial-arduino`
-`sudo apt-get install ros-noetic-rosserial-`
+`sudo apt-get install ros-noetic-rosseria`
     - Run the roscore command:
-    `roscore`
-    -In the arduino libraries folder run the ROS node:
-    `rosrun rosserial arduino make libraries.py .`
+    - `roscore` 
+    - In the arduino libraries folder run the ROS node: 
+    - `rosrun rosserial arduino make libraries.py .`
 5. Install: Peter Corke robotics toolbox library, Spatial Maths for Python, tkinter library for GUI. You can do this by running the following commands in your terminal:
 
-`pip install robotics-toolbox-python`
-`pip install spatialmath-python`
-`pip install tk`
+- `pip install robotics-toolbox-python`
+- `pip install spatialmath-python`
+- `pip install tk`.
 6. Clone the repository: 
-'git clone git@github.com:youssiefanas/MeArm.git'
+- `git clone git@github.com:youssiefanas/MeArm.git`
 
 7. Copy the meArm_py folder to your ROS workspace (ex: catkin_ws).
 
@@ -37,9 +37,10 @@ To install the necessary software, follow these steps:
 
 9. Connect the Arduino board to your computer using a USB cable.
 10. Upload the Arduino sketch (included in this repository) to the board.
-11. Run : `roscore`
-    `rosrun meArm_py mearm_gui.py`
-    `rosrun rosserial_arduino serial_node.py /dev/ttyACM0`
+11. Run :
+- `roscore`
+- `rosrun meArm_py mearm_gui.py`
+- `rosrun rosserial_arduino serial_node.py /dev/ttyACM0`
 
 ## Robot Kinematics
 
