@@ -56,10 +56,10 @@ int home_elbow = 140; //--------
 
 void setup() {
 Serial.begin(57600);
-  base.attach(9);
+  base.attach(7);
   shoulder.attach(8);
-  elbow.attach(10);
-  gripper.attach(7);
+  elbow.attach(9);
+  gripper.attach(10);
 
   nh.initNode();
   nh.advertise(getreadings);

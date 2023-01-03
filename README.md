@@ -83,6 +83,10 @@ There are many possibilities for future improvements to this project. Some ideas
 - Improving the accuracy of the inverse kinematics calculations.
 - Adding more complex gripper designs.
 - Adding a depth camera sensors to the end effector to spot the objects and its 3D position.
+- Add motion on trajectory.
+- Build more rigid body.
+- Make better Servo calibration, as the position in real life is not matching the desired.
+
 
 ## Acknowledgements
 
