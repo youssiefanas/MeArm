@@ -56,6 +56,7 @@ int home_elbow = 140; //--------
 
 void setup() {
 Serial.begin(57600);
+  //Servo pins 7 8 9 10
   base.attach(7);
   shoulder.attach(8);
   elbow.attach(9);
