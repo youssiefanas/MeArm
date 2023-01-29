@@ -1,7 +1,11 @@
 # MeArm Pocket Size Manipulator
 
 This project is a 3 DOF robot arm constructed from acrylic and powered by servos. The arm is designed to be small and portable, making it easy to take with you wherever you go.
-In this project both forward and inverse kinematics were constructed to model the robot motion towards the desired postions.
+In this project both forward and inverse kinematics were constructed to model the robot motion towards the desired postions.  
+
+
+https://user-images.githubusercontent.com/121443735/215329845-c3bd86b8-b6d1-44c3-ada0-9e5be12504f0.mp4
+
 
 ## Installation and setup
 
@@ -16,13 +20,13 @@ To install the necessary software, follow these steps:
 1. Install Python on your computer (if it is not already installed). You can download Python from the official website: https://www.python.org/downloads/
 2. ROS Neotic.
 3. Install Arduino IDE.
-4. Install ROSserial package.
-`sudo apt-get install ros-noetic-rosserial-arduino`
+4. Install ROSserial package.  
+`sudo apt-get install ros-noetic-rosserial-arduino`  
 `sudo apt-get install ros-noetic-rosseria`
-    - Run the roscore command:
-    - `roscore` 
-    - In the arduino libraries folder run the ROS node: 
-    - `rosrun rosserial arduino make libraries.py .`
+    - Run the roscore command:  
+    `roscore` 
+    - In the arduino libraries folder run the ROS node:  
+    `rosrun rosserial arduino make libraries.py .`
 5. Install: Peter Corke robotics toolbox library, Spatial Maths for Python, tkinter library for GUI. You can do this by running the following commands in your terminal:
 
 - `pip install robotics-toolbox-python`
@@ -44,10 +48,12 @@ To install the necessary software, follow these steps:
 
 ## Robot Kinematics
 
-The Robot configuration was constructed using peter corke robotics toolbox. 
-The D-H parameters were solved according to the configuration.
-The Robotics toolbox allow you to solve forward kinematics using `fkine()` and inverse kinematics using `ikine_LM()` function.
-The workspace of the robot identified using the matlab with the same library.
+The Robot configuration was constructed using peter corke robotics toolbox.  
+The D-H parameters were solved according to the configuration.  
+The Robotics toolbox allow you to solve forward kinematics using `fkine()` and inverse kinematics using `ikine_LM()` function.  
+The workspace of the robot identified using the matlab with the same library.  
+![](Me_Arm_Photos/DH-Parameters.jpeg)  
+![](https://github.com/youssiefanas/MeArm/blob/790ffbbf91c50782aa12cb093f26c4faa3573730/merobotd.png)
 
 
 
@@ -55,13 +61,16 @@ The workspace of the robot identified using the matlab with the same library.
 
 The GUI for this project allows you to control the MeArm and make it reach a certain position (x, y, z) coordinates or by moving each joint independently. It also includes buttons to move the MeArm to its home position and control the gripper.
 
-To use the GUI, follow these steps:
+To use the GUI, follow these steps:  
+
 
 1. The GUI will appear when you run the ros node.
 2. Input x, y, z coordinates in the input boxes and press the "Calculate" button to move the MeArm to that position.
 3. Use the sliders to move each joint independently.
 4. Press the "Home" button to move the MeArm to its home position.
-5. Press the "Gripper release" and "Gripper Close" buttons to control the gripper.
+5. Press the "Gripper release" and "Gripper Close" buttons to control the gripper.  
+
+![](Me_Arm_Photos/GUI_start.jpeg)  
 
 ## Additional features
 
