@@ -7,6 +7,7 @@ from roboticstoolbox import RevoluteDH, DHRobot
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # servo mapping
 max_base=120
 min_shoulder=70
@@ -40,13 +41,14 @@ class MeArm(DHRobot):
         L0 = RevoluteDH(d=7.5, a=10, alpha=np.pi / 2, qlim=[j1_min, j1_max])
         L1 = RevoluteDH(d=0, a=9, alpha=0, qlim=[j2_min, j2_max])
         L2 = RevoluteDH(d=0, a=9, alpha=0, qlim=[j3_min, j3_max])
-        super().__init__([L0, L1, L2], name="MeArm", manufacturer="E-JUST")
+        super().__init__([L0, L1, L2], name="MeArm", manufacturer="Youssief Anas")
         self.home = np.array([0, np.pi / 2, -np.pi / 2])
         self.qz = np.zeros(3)
         self.min = np.array([j1_min, j2_min, j3_min])
         self.max = np.array([j1_max, j2_max, j3_max])
         self.addconfiguration("home", self.home)
         self.addconfiguration("qz", self.qz)
+        
 
 
 class MeArmGUI:
@@ -96,6 +98,7 @@ class MeArmGUI:
         y_label = tk.Label(frame, text="y")
         z_label = tk.Label(frame, text="z")
 
+
         # create three entry boxes
         self.x_entry = tk.Entry(frame)
         self.y_entry = tk.Entry(frame)
@@ -103,6 +106,7 @@ class MeArmGUI:
 
         # create a button
         calculate_button = tk.Button(frame, text="calculate", command=self.calculate)
+
 
         # create clear button to clear the entry boxes and labels
         clear_button = tk.Button(frame, text="clear", command=self.clear)
@@ -382,5 +386,7 @@ class MeArmGUI:
 
 
 if __name__ == "__main__":
+    arm = MeArm()
+    print(arm)
     gui = MeArmGUI()
     gui()
